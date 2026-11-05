@@ -3,51 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The design portfolio of Iris Yu.">
-<title>Iris Yu · Design Portfolio</title>
+<meta name="description" content="Design portfolio of Iris Yu.">
+<title>Iris Yu — Work & About</title>
 <style>
-  :root { color-scheme: light; font-family: system-ui, sans-serif; color: #24231e; background: #f8f6ef; }
-  * { box-sizing: border-box; }
-  body { margin: 0; }
-  a { color: inherit; text-underline-offset: .3em; }
-  header, main, footer { width: min(100% - 3rem, 68rem); margin: auto; }
-  header, footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; }
-  header { border-bottom: 1px solid #d7d4ca; }
-  .hero { padding: clamp(4rem, 12vw, 10rem) 0 clamp(3rem, 8vw, 6rem); }
-  .label { font-size: .75rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  h1 { font: 400 clamp(4rem, 13vw, 10rem)/.9 Georgia, serif; letter-spacing: -.075em; margin: .18em 0; }
-  .intro { font-size: clamp(1.2rem, 3vw, 1.75rem); }
-  .work { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); background: #e8ebdd; border-radius: 1rem; overflow: hidden; }
-  .copy { align-self: center; padding: clamp(1.5rem, 5vw, 4rem); }
-  h2 { font: 400 clamp(2rem, 5vw, 3.5rem)/1 Georgia, serif; margin: .4em 0; }
-  .art { min-height: 17rem; display: grid; place-items: center; background: #d8e1c8; }
-  svg { width: min(80%, 20rem); height: auto; }
-  footer { margin-top: 2rem; font-size: .85rem; }
+:root { color-scheme: light; --paper:#fbfbfa; --ink:#202124; --muted:#62656a; --rule:#dededb; --gutter:clamp(22px,6.25vw,110px); font-family:Arial,Helvetica,sans-serif; }
+:root[data-theme="dark"] { color-scheme:dark; --paper:#18191a; --ink:#f1f1ee; --muted:#b7b8b8; --rule:#414346; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); }
+a, button { color:inherit; }
+a { text-decoration:none; }
+a:hover { text-decoration:underline; text-underline-offset:4px; }
+button { cursor:pointer; font:inherit; }
+:focus-visible { outline:2px solid #6687ee; outline-offset:4px; }
+header, footer { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin:0 var(--gutter); padding:22px 0; }
+.mono { font: 12px/1.55 ui-monospace,monospace; text-transform:uppercase; letter-spacing:.015em; }
+.dim { color:var(--muted); }
+nav { display:grid; justify-items:start; }
+#theme { display:block; border:0; padding:0; background:none; text-align:left; }
+.hero { margin:0 var(--gutter); padding:clamp(84px,10vw,155px) 0 clamp(85px,10vw,145px); }
+h1 { max-width:560px; margin:0; font-size:clamp(28px,3.1vw,42px); font-weight:500; line-height:1.12; letter-spacing:-.045em; }
+.work { display:grid; grid-template-columns:minmax(170px,1fr) minmax(0,3fr); gap:24px; padding-left:var(--gutter); }
+.work h2, .about h2 { font-size:19px; font-weight:500; margin:0 0 8px; letter-spacing:-.02em; }
+.work p { max-width:215px; margin:0 0 20px; color:var(--muted); line-height:1.42; }
+.gallery { min-width:0; container-type:inline-size; }
+.track { display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; padding-right:max(53%, calc(100% - 500px)); }
+.panel { flex:0 0 min(47cqw,500px); min-width:0; aspect-ratio:1.1; display:grid; place-items:center; scroll-snap-align:start; margin:0; overflow:hidden; color:#202124; }
+.panel svg { width:82%; height:82%; }
+.a { background:#dcdff0; } .b { background:#dce8df; } .c { background:#f1e1d9; }
+.controls { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px var(--gutter) 0 0; }
+.controls[hidden] { display:none; }
+.controls button { border:1px solid var(--rule); background:transparent; width:38px; height:38px; border-radius:50%; }
+.controls button:disabled { opacity:.35; cursor:default; }
+.about { border-top:1px solid var(--rule); margin:clamp(72px,11vw,150px) var(--gutter) 0; padding:32px 0 72px; }
+.about p { color:var(--muted); max-width:420px; line-height:1.5; }
+footer { border-top:1px solid var(--rule); grid-template-columns:1fr auto; }
+@media (max-width:650px) {
+  header { grid-template-columns:repeat(3,1fr); gap:10px; }
+  header nav { grid-column:3; grid-row:1; }
+  header > a:last-child { display:none; }
+  .work { grid-template-columns:minmax(0,1fr); }
+  .track { padding-right:22%; }
+  .panel { flex-basis:78cqw; }
+}
 </style>
 </head>
-<body>
-<header><strong>Iris Yu</strong><a href="#work">Work</a></header>
-<main id="top">
-  <section class="hero" aria-labelledby="title">
-    <p class="label">Design portfolio</p>
-    <h1 id="title">Iris Yu</h1>
-    <p class="intro">A home for my design work.</p>
+<body id="top">
+<header class="mono">
+  <a href="#top"><span class="dim">Work by</span><br>Iris Yu</a>
+  <button id="theme" type="button" aria-pressed="false"><span class="dim">Appearance</span><br><span id="theme-name">Light ☼</span></button>
+  <nav aria-label="Main navigation"><a href="#work">Work</a><a class="dim" href="#about">About</a></nav>
+  <a class="dim" href="https://github.com/irisyu882">GitHub ↗</a>
+</header>
+<main>
+  <section class="hero" aria-label="Introduction">
+    <h1>I’m Iris Yu. <span class="dim">This is a space for my design projects, explorations, and the thinking behind them.</span></h1>
   </section>
   <section class="work" id="work" aria-labelledby="work-title">
-    <div class="copy">
-      <p class="label">Portfolio in progress</p>
+    <div>
       <h2 id="work-title">Selected work</h2>
-      <p>Project case studies are coming soon.</p>
+      <p>Case studies are coming soon. Browse the gallery for a preview of the layout.</p>
+      <span class="mono dim">Gallery demo</span>
     </div>
-    <div class="art" aria-hidden="true">
-      <svg viewBox="0 0 320 240" fill="none">
-        <circle cx="108" cy="120" r="76" fill="#f7f3dc"/>
-        <circle cx="212" cy="120" r="76" fill="#789267"/>
-        <path d="M160 65a76 76 0 0 1 0 110 76 76 0 0 1 0-110Z" fill="#344b39"/>
-      </svg>
+    <div class="gallery">
+      <div class="track" tabindex="0" role="region" aria-label="Illustrative gallery">
+        <figure class="panel a" aria-label="Interface sketch">
+          <svg viewBox="0 0 360 280" aria-hidden="true">
+            <rect x="38" y="37" width="284" height="204" rx="18" fill="#252541"/>
+            <rect x="46" y="45" width="268" height="188" rx="12" fill="#f8f7ff"/>
+            <path fill="#ddd9f4" d="M55 75h60v149H55z"/>
+            <rect x="128" y="75" width="172" height="70" rx="8" fill="#6157aa"/>
+            <circle cx="260" cy="110" r="21" fill="#ded8fc"/>
+            <path stroke="#a19ac3" stroke-width="7" stroke-linecap="round" d="M142 105h66m-66 17h44M64 93h30m-30 18h22m-22 18h26"/>
+            <rect x="128" y="157" width="80" height="62" rx="8" fill="#e9e5fa"/>
+            <rect x="220" y="157" width="80" height="62" rx="8" fill="#e9e5fa"/>
+          </svg>
+        </figure>
+        <figure class="panel b" aria-label="Mobile flow sketch">
+          <svg viewBox="0 0 360 280" aria-hidden="true">
+            <rect x="77" y="34" width="105" height="209" rx="20" fill="#234234"/>
+            <rect x="82" y="40" width="95" height="197" rx="16" fill="#f4f9f2"/>
+            <circle cx="129" cy="106" r="28" fill="#b3d6ba"/>
+            <path d="m116 106 9 9 17-19" fill="none" stroke="#315a41" stroke-width="4"/>
+            <path stroke="#b8cabc" stroke-width="6" stroke-linecap="round" d="M104 158h50m-42 14h35"/>
+            <rect x="100" y="198" width="59" height="16" rx="8" fill="#315a41"/>
+            <rect x="190" y="52" width="94" height="188" rx="17" fill="#527360"/>
+            <rect x="195" y="58" width="84" height="176" rx="13" fill="#e6f0e5"/>
+            <path stroke="#a1bea6" stroke-width="12" stroke-linecap="round" d="M211 102h53m-53 28h53m-53 28h53m-53 28h35"/>
+          </svg>
+        </figure>
+        <figure class="panel c" aria-label="Visual system sketch">
+          <svg viewBox="0 0 360 280" aria-hidden="true">
+            <rect x="52" y="48" width="256" height="184" rx="12" fill="#fff9f3"/>
+            <circle cx="125" cy="128" r="42" fill="#d88472"/>
+            <path d="M177 86h42v84h-42zm52 42 42-42v84z" fill="#8c4b43"/>
+            <path stroke="#d9b4a4" stroke-width="7" stroke-linecap="round" d="M85 198h63m23 0h47m23 0h30"/>
+          </svg>
+        </figure>
+      </div>
+      <div class="controls" hidden>
+        <span class="mono dim" id="caption" aria-live="polite"></span>
+        <div><button type="button" id="prev" aria-label="Previous preview">←</button> <button type="button" id="next" aria-label="Next preview">→</button></div>
+      </div>
     </div>
   </section>
+  <section class="about" id="about" aria-labelledby="about-title">
+    <h2 id="about-title">About</h2>
+    <p>I’m Iris Yu. I use this portfolio to share my design work and document how it comes together.</p>
+  </section>
 </main>
-<footer><span>Iris Yu</span><a href="#top">Back to top ↑</a></footer>
+<footer class="mono"><span>Iris Yu</span><a href="#top">Back to top ↑</a></footer>
+<script>
+const theme = document.querySelector('#theme');
+const themeName = document.querySelector('#theme-name');
+function applyTheme(dark) {
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  theme.setAttribute('aria-pressed', dark);
+  themeName.textContent = dark ? 'Dark ☾' : 'Light ☼';
+}
+try { applyTheme(localStorage.getItem('iris-theme') === 'dark'); } catch {}
+theme.addEventListener('click', () => {
+  const dark = theme.getAttribute('aria-pressed') !== 'true';
+  applyTheme(dark);
+  try { localStorage.setItem('iris-theme', dark ? 'dark' : 'light'); } catch {}
+});
+const track = document.querySelector('.track');
+const slides = Array.from(track.children);
+const previous = document.querySelector('#prev');
+const next = document.querySelector('#next');
+const caption = document.querySelector('#caption');
+let active = 0;
+function updateControls() {
+  const max = track.scrollWidth - track.clientWidth;
+  const step = slides[1].offsetLeft - slides[0].offsetLeft;
+  const atEnd = track.scrollLeft >= max - 2;
+  active = atEnd ? slides.length - 1 : Math.round(track.scrollLeft / step);
+  previous.disabled = track.scrollLeft <= 2;
+  next.disabled = atEnd;
+  caption.textContent = (active + 1) + ' / ' + slides.length + ' · ' + slides[active].getAttribute('aria-label');
+}
+function advance(direction) {
+  const step = slides[1].offsetLeft - slides[0].offsetLeft;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  track.scrollBy({left:direction * step, behavior:reduced ? 'instant' : 'smooth'});
+}
+previous.addEventListener('click', () => advance(-1));
+next.addEventListener('click', () => advance(1));
+track.addEventListener('scroll', updateControls, {passive:true});
+window.addEventListener('resize', updateControls);
+document.querySelector('.controls').hidden = false;
+updateControls();
+</script>
 </body>
 </html>
